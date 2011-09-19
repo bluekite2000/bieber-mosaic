@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="file-uploader">       
+    <noscript>          
+        <p>Please enable JavaScript to use file uploader.</p>
+    </noscript>         
+</div>
+
+
+<!--List Files-->
+<ul id="files" ></ul>
+
+
+
+<script>
+
+
+
+
+
+var uploader = new qq.FileUploader( {
+    action: {% url	ajax_upload %},
+    element: $('#file-uploader')[0],
+    multiple: true,
+    onComplete: function( id, fileName, responseJSON ) {
+	  var modfile='mod_'+fileName
+      if( responseJSON.success )
+       {
+		$('<li></li>').prependTo('#files').html('<img src="/media/'+fileName+'" alt="" /><br />'+fileName).addClass('success');
+		$('<li></li>').prependTo('#files').html('<img src="/media/'+modfile+'" alt="" /><br />'+modfile).addClass('success');
+
+	}
+
+	
+	
+      else
+        alert( "upload failed!" ) ;
+    },
+    onAllComplete: function( uploads ) {
+      // uploads is an array of maps
+      // the maps look like this: { file: FileObject, response: JSONServerResponse }
+      //alert( "All complete!" ) ;
+    },
+    params: {
+      'csrf_token': '{{ csrf_token }}',
+      'csrf_name': 'csrfmiddlewaretoken',
+      'csrf_xname': 'X-CSRFToken',
+    },
+  } ) ;
+
+</script>
+{% endblock %}

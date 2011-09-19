@@ -1,0 +1,158 @@
+
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN"> 
+<html> <head> 
+<title>instasaic.com</title> 
+<link rel="stylesheet" href="/media/fileuploader.css"> 
+<script type="text/javascript" src="/media/jquery-1.2.6.min.js"></script> 
+<script type="text/javascript" src="/media/notes.js"></script> 
+<script type="text/javascript" src="/media/fileuploader.js"></script> 
+ <link rel="stylesheet" href="media/bootstrap-1.1.0.min.css">
+
+<style>
+#image{
+border:4px #666 solid;
+height:480px;
+width:640px;}
+
+.thumb{
+float:left;
+margin-right:10px;
+margin-top:10px;}
+</style>
+
+
+</head> 
+ 
+ 
+<body> 
+	
+	
+<div class="topbar">
+<div class="fill">
+
+
+<div class="container">
+	    
+	        <p id="tag"> 
+	          Upload a pic&wait a few mins for a beautiful mosaic made of bieber thumbnails.
+ 
+ 
+	        </p> 
+ 
+ 
+ 
+	  </div> 
+ 
+	    </div> 
+	  </div> 
+	<div class="container"> 
+<br>
+<br>	
+
+<div id="file-uploader">       
+    <noscript>          
+        <p>Please enable JavaScript to use file uploader.</p>
+    </noscript>         
+</div> 
+
+<div >
+Note that the smaller your pic is, the faster the mosaic processing will take.
+For example a 20kb input pic will produce a 6.5mb mosaic, taking over 2 mins.
+A 600kb input pic will produce a 41mb mosaic, taking over 6 mins.
+</div>
+
+	<div class="clear"></div>
+
+<!--List Files--> 
+<ul id="files" ></u l> 
+ 
+
+	
+	
+ <script>
+//var global_name='imgres.jpeg'
+ 
+$('<li></li>').prependTo('#files').html('<img src="/media/input/imgres_elli.jpeg" alt="" /><br />').addClass('success');
+$('<li></li>').prependTo('#files').html('<img src="/media/input/mosaic_imgres_elli.jpeg" width="960" alt="" /><br />').addClass('success');
+ 
+
+
+var uploader = new qq.FileUploader( {
+    action: /ajax_upload/,
+    element: $('#file-uploader')[0],
+    multiple: true,
+    onComplete: function( id, fileName, responseJSON ) {
+	  var modfile='mosaic_'+fileName
+	
+	  global_name=fileName
+      if( responseJSON.success )
+       {
+	    $('#files').empty();
+		$('<li></li>').prependTo('#files').html('<img src="/media/input/'+fileName+'" alt="" /><br />'+fileName).addClass('success');
+		$('<li></li>').prependTo('#files').html('<img src="/media/input/'+modfile+'" alt="" width="960"/><br />'+modfile).addClass('success');
+
+	}
+ 
+	
+	
+      else
+        alert( "mosaic fail" ) ;
+    },
+    onAllComplete: function( uploads ) {
+      // uploads is an array of maps
+      // the maps look like this: { file: FileObject, response: JSONServerResponse }
+      //alert( "All complete!" ) ;
+    },
+    params: {
+      'csrf_token': 'NOTPROVIDED',
+      'csrf_name': 'csrfmiddlewaretoken',
+      'csrf_xname': 'X-CSRFToken',
+    },
+  } ) ;
+
+
+
+
+ $(function() {
+$(".file").click(function() {
+var image = $(this).attr("rel").split('/').pop().replace('.png','');
+
+$('#file').hide();
+$('#file').fadeIn('slow');
+//$('#file').html('<img src="' + image + '"/>');
+var modfile=image+'_'+global_name
+$('#files').empty();
+	$('<li></li>').prependTo('#files').html('<img src="/media/'+modfile+'" alt="" /><br />'+modfile).addClass('success');
+	 	
+return false;
+	});
+	
+	
+	
+});
+
+
+
+
+ 
+</script> 
+
+</div> 
+ 
+
+ 
+<div class="footer-wrapper"> 
+    
+ 
+ 
+
+         &copy; 2011- Do you want the thumbnails to be something else? Let me know! dat at ndat.org 
+         
+   
+  </div> 
+ 
+ 
+  </div> 
+ 
+</body> 
+</html>
